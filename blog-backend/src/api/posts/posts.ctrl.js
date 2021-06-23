@@ -48,10 +48,34 @@ export const write = async (ctx) => {
 };
 
 export const list = async (ctx) => {
-  try {
-    const posts = await Post.find().exec();
+  // query는 문자열이기 때문에 숫자로 변환
+  // 값이 주어지지 않았다면 1을 기본으로 사용
+  const page = parseInt(ctx.query.page || '1', 10);
 
-    ctx.body = posts;
+  if (page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  try {
+    const posts = await Post.find()
+      .sort({ _id: -1 })
+      .limit(10)
+      .skip((page - 1) * 10)
+      .lean() // 데이터 조회 시 mongoose 문서 인스턴스 형태가 아닌 JSON 형태로 조회
+      .exec();
+
+    // 게시물 마지막 페이지 번호
+    const postCount = await Post.countDocuments().exec();
+
+    // 게시물 갯수가 10개씩 보여지기 때문에 나누기 10 하여 Last-Page라는 커스텀 헤더에 설정
+    ctx.set('Last-Page', Math.ceil(postCount / 10));
+    // body 길이가 200자 이상이면 ...을 붙이고 문자열을 자른다
+    ctx.body = posts.map((post) => ({
+      ...post,
+      body:
+        post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`,
+    }));
   } catch (e) {
     ctx.throw(500, e);
   }
