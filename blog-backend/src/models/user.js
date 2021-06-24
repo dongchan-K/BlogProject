@@ -18,6 +18,13 @@ UserSchema.methods.checkPassword = async function (password) {
   return result; // true or false
 };
 
+// hasehdPassword 필드를 지우는 인스턴스 메서드
+UserSchema.methods.serialize = function () {
+  const data = this.toJSON();
+  delete data.hashedPassword;
+  return data;
+};
+
 // 스태틱 메서드의 this는 모델을 가리킨다 -> User
 UserSchema.statics.findByUsername = function (username) {
   return this.findOne({ username });
