@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
 html,
 body,
 div,
@@ -92,6 +94,7 @@ video {
   vertical-align: baseline;
   font-size: 10px;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -106,18 +109,35 @@ nav,
 section {
   display: block;
 }
+
+#root {
+  min-height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
 body {
   line-height: 1;
   font-family: 'Roboto', sans-serif;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -125,6 +145,7 @@ q:after {
   content: '';
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
