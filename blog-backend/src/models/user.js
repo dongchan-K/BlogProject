@@ -30,7 +30,7 @@ UserSchema.methods.generateToken = function () {
   const token = jwt.sign(
     // 첫번째 파라미터는 토큰에 넣고 싶은 데이터를 넣는다
     {
-      id: this.id,
+      _id: this.id,
       username: this.username,
     },
     process.env.JWT_SECRET, // 두번째 파라미터에는 JWT 암호를 넣는다,

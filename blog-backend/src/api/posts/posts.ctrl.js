@@ -4,30 +4,62 @@ import Joi from '@hapi/joi';
 
 const { ObjectId } = mongoose.Types;
 
-export const checkObjectId = (ctx, next) => {
+// 포스트 ObjectId로 포스트 조회
+export const getPostById = async (ctx, next) => {
   const { id } = ctx.params;
 
   if (!ObjectId.isValid(id)) {
-    ctx.status = 400;
+    ctx.status = 400; // Bad Request
+    return;
+  }
+  try {
+    const post = await Post.findById(id).exec();
+
+    console.log(post);
+    // 포스트가 존재하지 않을 때
+    if (!post) {
+      ctx.status = 404; // Not Found
+      return;
+    }
+    ctx.state.post = post;
+    return next();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+// 로그인 중인 사용자가 작성한 포스트인지 확인
+export const checkOwnPost = (ctx, next) => {
+  const { user, post } = ctx.state;
+
+  if (post.user._id.toString() !== user._id) {
+    ctx.status = 403;
     return;
   }
   return next();
 };
 
+/*
+  POST /api/posts
+  {
+    title: '제목',
+    body: '내용',
+    tags: ['태그1', '태그2']
+  }
+*/
 export const write = async (ctx) => {
-  // Request Body 검증
   const schema = Joi.object().keys({
     // 객체가 다음 필드를 가지고 있음을 검증
-    title: Joi.string().required(), // required()가 있으면 필수 항목
+    title: Joi.string().required(), // required() 가 있으면 필수 항목
     body: Joi.string().required(),
     tags: Joi.array().items(Joi.string()).required(), // 문자열로 이루어진 배열
   });
 
-  // 검증 후 실패인 경우 에러 처리
+  // 검증 후, 검증 실패시 에러처리
   const result = schema.validate(ctx.request.body);
 
   if (result.error) {
-    ctx.status = 400;
+    ctx.status = 400; // Bad Request
     ctx.body = result.error;
     return;
   }
@@ -37,6 +69,7 @@ export const write = async (ctx) => {
     title,
     body,
     tags,
+    user: ctx.state.user,
   });
 
   try {
@@ -47,9 +80,12 @@ export const write = async (ctx) => {
   }
 };
 
+/*
+  GET /api/posts?username=&tag=&page=
+*/
 export const list = async (ctx) => {
-  // query는 문자열이기 때문에 숫자로 변환
-  // 값이 주어지지 않았다면 1을 기본으로 사용
+  // query 는 문자열이기 때문에 숫자로 변환해주어야함
+
   const page = parseInt(ctx.query.page || '1', 10);
 
   if (page < 1) {
@@ -57,20 +93,23 @@ export const list = async (ctx) => {
     return;
   }
 
+  const { tag, username } = ctx.query;
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+  const query = {
+    ...(username ? { 'user.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
+  };
+
   try {
-    const posts = await Post.find()
+    const posts = await Post.find(query)
       .sort({ _id: -1 })
       .limit(10)
       .skip((page - 1) * 10)
-      .lean() // 데이터 조회 시 mongoose 문서 인스턴스 형태가 아닌 JSON 형태로 조회
+      .lean()
       .exec();
+    const postCount = await Post.countDocuments(query).exec();
 
-    // 게시물 마지막 페이지 번호
-    const postCount = await Post.countDocuments().exec();
-
-    // 게시물 갯수가 10개씩 보여지기 때문에 나누기 10 하여 Last-Page라는 커스텀 헤더에 설정
     ctx.set('Last-Page', Math.ceil(postCount / 10));
-    // body 길이가 200자 이상이면 ...을 붙이고 문자열을 자른다
     ctx.body = posts.map((post) => ({
       ...post,
       body:
@@ -81,55 +120,57 @@ export const list = async (ctx) => {
   }
 };
 
+/*
+  GET /api/posts/:id
+*/
 export const read = async (ctx) => {
-  const { id } = ctx.params;
-
-  try {
-    const post = await Post.findById(id).exec();
-
-    if (!post) {
-      ctx.status = 404;
-      return;
-    }
-    ctx.body = post;
-  } catch (e) {
-    ctx.throw(500, e);
-  }
+  ctx.body = ctx.state.post;
 };
 
+/*
+  DELETE /api/posts/:id
+*/
 export const remove = async (ctx) => {
   const { id } = ctx.params;
 
   try {
     await Post.findByIdAndRemove(id).exec();
-    ctx.status = 204;
+    ctx.status = 204; // No Content (성공은 했지만 응답할 데이터는 없음)
   } catch (e) {
     ctx.throw(500, e);
   }
 };
 
+/*
+  PATCH /api/posts/:id
+  {
+    title: '수정',
+    body: '수정 내용',
+    tags: ['수정', '태그']
+  }
+*/
 export const update = async (ctx) => {
   const { id } = ctx.params;
-  // Request Body 검증
+
   const schema = Joi.object().keys({
     title: Joi.string(),
     body: Joi.string(),
     tags: Joi.array().items(Joi.string()),
   });
 
-  // 검증 후 실패인 경우 에러 처리
+  // 검증 후, 검증 실패시 에러처리
   const result = schema.validate(ctx.request.body);
-
   if (result.error) {
-    ctx.status = 400;
+    ctx.status = 400; // Bad Request
     ctx.body = result.error;
     return;
   }
 
   try {
     const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
-      new: true, // 업데이트 된 데이터를 반환
+      new: true,
     }).exec();
+
     if (!post) {
       ctx.status = 404;
       return;
