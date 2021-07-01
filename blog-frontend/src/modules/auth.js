@@ -38,6 +38,7 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
 
 const registerSaga = createRequestSage(REGISTER, authAPI.register);
 const loginSaga = createRequestSage(LOGIN, authAPI.login);
+
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);

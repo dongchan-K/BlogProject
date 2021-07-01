@@ -20,6 +20,6 @@ export default function createRequestSage(type, request) {
         error: true,
       });
     }
-    yield put(endLoading(type)); // 로딩 끝
+    yield put(endLoading(type)); // 로딩 완료
   };
 }
