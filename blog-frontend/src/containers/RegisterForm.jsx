@@ -40,12 +40,13 @@ const RegisterForm = () => {
     dispatch(initializeForm('register'));
   }, [dispatch]);
 
-  // 회원가입 성공, 실패
+  // 회원가입 성공, 실패 확인
   useEffect(() => {
     if (authError) {
       console.log('회원가입 실패');
       console.log('authError', authError);
     }
+    // 회원가입 성공 시 check 액션 디스패치
     if (auth) {
       console.log('회원가입 성공');
       console.log('auth', auth);
@@ -53,7 +54,7 @@ const RegisterForm = () => {
     }
   }, [auth, authError, dispatch]);
 
-  // 회원여부 확인
+  // 회원여부 확인 후 홈 화면 이동
   useEffect(() => {
     if (user) {
       history.push('/');
