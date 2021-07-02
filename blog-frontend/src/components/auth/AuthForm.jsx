@@ -24,20 +24,28 @@ const StyledInput = styled.input`
     border-bottom: 1px solid ${palette.gray[7]};
   }
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 `;
 
 const Footer = styled.div`
-  margin-top: 2rem;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  color: ${palette.gray[6]};
   a {
-    color: ${palette.gray[6]};
     text-decoration: underline;
     &:hover {
       color: ${palette.gray[9]};
     }
   }
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 1rem;
 `;
 
 const ButtonWithMarginTop = styled(Button)`
@@ -49,12 +57,12 @@ const textMap = {
   register: '회원가입',
 };
 
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, loginError }) => {
   const text = textMap[type];
 
   return (
     <AuthFormWrapper>
-      <h3>{text}</h3>
+      {/* <h3>{text}</h3> */}
       <form onSubmit={onSubmit}>
         <StyledInput
           autoComplete="username"
@@ -81,11 +89,14 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             value={form.passwordConfirm}
           />
         )}
+        {/* {loginError && <ErrorMessage>{loginError}</ErrorMessage>} */}
+        <ErrorMessage>{loginError}</ErrorMessage>
         <ButtonWithMarginTop fullWidth cyan>
           {text}
         </ButtonWithMarginTop>
       </form>
       <Footer>
+        <p>{type === 'login' ? '회원이 아니신가요?' : '이미 회원이신가요?'}</p>
         {type === 'login' ? (
           <Link to="/register">회원가입</Link>
         ) : (

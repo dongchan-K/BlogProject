@@ -21,8 +21,10 @@ const WhiteBox = styled.div`
     display: block;
     padding-bottom: 2rem;
     text-align: center;
-    font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    font-family: 'CookieRunOTF-Bold';
+    font-size: 1.4rem;
+    color: #22b8cf;
   }
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
   padding: 2rem;
@@ -36,7 +38,7 @@ const AuthTemplate = ({ children }) => {
     <AuthTemplateWrapper>
       <WhiteBox>
         <div className="logo-area">
-          <Link to="/">REACTERS</Link>
+          <Link to="/">gossip</Link>
         </div>
         {children}
       </WhiteBox>

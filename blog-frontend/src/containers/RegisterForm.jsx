@@ -35,7 +35,7 @@ const RegisterForm = () => {
     dispatch(register({ username, password }));
   };
 
-  // 최초에 form 초기화
+  // 최초에 회원가입 폼 초기화
   useEffect(() => {
     dispatch(initializeForm('register'));
   }, [dispatch]);
@@ -46,7 +46,7 @@ const RegisterForm = () => {
       console.log('회원가입 실패');
       console.log('authError', authError);
     }
-    // 회원가입 성공 시 check 액션 디스패치
+    // 회원가입 성공 시 check 액션 디스패치 -> 로그인 상태 확인
     if (auth) {
       console.log('회원가입 성공');
       console.log('auth', auth);
@@ -54,7 +54,7 @@ const RegisterForm = () => {
     }
   }, [auth, authError, dispatch]);
 
-  // 회원여부 확인 후 홈 화면 이동
+  // 로그인 되어있다면 홈 화면으로 이동
   useEffect(() => {
     if (user) {
       history.push('/');
