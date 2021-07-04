@@ -9,6 +9,7 @@ export default function createRequestSage(type, request) {
     yield put(startLoading(type)); // 로딩 시작
     try {
       const res = yield call(request, action.payload);
+
       yield put({
         type: SUCCESS,
         payload: res.data,

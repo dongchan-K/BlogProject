@@ -30,10 +30,14 @@ const StyledInput = styled.input`
 
 const Footer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 1.5rem;
   color: ${palette.gray[6]};
+  p {
+    margin-right: 0.5rem;
+  }
   a {
+    font-weight: bold;
     text-decoration: underline;
     &:hover {
       color: ${palette.gray[9]};
@@ -57,7 +61,7 @@ const textMap = {
   register: '회원가입',
 };
 
-const AuthForm = ({ type, form, onChange, onSubmit, loginError }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
 
   return (
@@ -89,8 +93,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, loginError }) => {
             value={form.passwordConfirm}
           />
         )}
-        {/* {loginError && <ErrorMessage>{loginError}</ErrorMessage>} */}
-        <ErrorMessage>{loginError}</ErrorMessage>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ButtonWithMarginTop fullWidth cyan>
           {text}
         </ButtonWithMarginTop>

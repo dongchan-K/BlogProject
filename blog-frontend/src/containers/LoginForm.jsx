@@ -9,7 +9,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [loginError, setLoginError] = useState(null);
+  const [error, setError] = useState(null);
 
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.login,
@@ -44,7 +44,7 @@ const LoginForm = () => {
   useEffect(() => {
     // 로그인 실패
     if (authError) {
-      setLoginError('존재하지 않는 계정이거나, 잘못된 비밀번호입니다.');
+      setError('존재하지 않는 계정이거나, 잘못된 비밀번호입니다.');
     }
     // 로그인 성공 시 check 액션 디스패치 -> 로그인 상태 확인
     if (auth) {
@@ -65,7 +65,7 @@ const LoginForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
-      loginError={loginError}
+      error={error}
     />
   );
 };
