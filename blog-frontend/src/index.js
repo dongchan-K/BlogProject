@@ -8,6 +8,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from './modules';
 import createSagaMiddleware from 'redux-saga';
+import { tempSetUser, check } from './modules/user';
 
 const sagaMiddlaWare = createSagaMiddleware();
 
@@ -16,7 +17,20 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddlaWare)),
 );
 
+const loadUser = () => {
+  try {
+    const user = localStorage.getItem('user');
+    if (!user) return;
+
+    store.dispatch(tempSetUser(user));
+    store.dispatch(check());
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 sagaMiddlaWare.run(rootSaga);
+loadUser(); // run함수 이후에 처리되어야 한다
 
 ReactDOM.render(
   <Provider store={store}>
