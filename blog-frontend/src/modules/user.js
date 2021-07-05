@@ -14,8 +14,17 @@ export const check = createAction(CHECK);
 
 const checkSaga = createRequestSage(CHECK, authAPI.check);
 
+const checkFailureSaga = () => {
+  try {
+    localStorage.removeItem('user');
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
+  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
 }
 
 const initialState = {
