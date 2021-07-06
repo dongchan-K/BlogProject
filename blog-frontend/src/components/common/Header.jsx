@@ -8,7 +8,7 @@ const HeaderWrapper = styled.div`
   position: fixed;
   width: 100%;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 // Responsive 컴포넌트 속성에 스타일을 추가해서 새로운 컴포넌트 생성
@@ -21,6 +21,7 @@ const Wrapper = styled(Responsive)`
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: 2px;
+    color: #22b8cf;
   }
   .right {
     display: flex;
@@ -37,7 +38,7 @@ const UserInfo = styled.div`
   margin-right: 1rem;
 `;
 
-const Header = ({ user }) => {
+const Header = ({ user, onLogout }) => {
   return (
     <>
       <HeaderWrapper>
@@ -48,7 +49,7 @@ const Header = ({ user }) => {
           {user ? (
             <div className="right">
               <UserInfo>{user.username}</UserInfo>
-              <Button>로그아웃</Button>
+              <Button onClick={onLogout}>로그아웃</Button>
             </div>
           ) : (
             <div className="right">
