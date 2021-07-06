@@ -6,7 +6,7 @@ import palette from '../../lib/styles/palette';
 import Responsive from '../../components/common/Responsive';
 import { useEffect } from 'react';
 
-const EditorBlock = styled(Responsive)`
+const EditorWrapper = styled(Responsive)`
   // 페이지 위아래 여백
   padding-top: 5rem;
   padding-bottom: 5rem;
@@ -54,12 +54,12 @@ const Editor = () => {
   });
 
   return (
-    <EditorBlock>
+    <EditorWrapper>
       <TitleInput placeholder="제목을 입력하세요" />
       <QuillWrapper>
         <div ref={quillElement} />
       </QuillWrapper>
-    </EditorBlock>
+    </EditorWrapper>
   );
 };
 
