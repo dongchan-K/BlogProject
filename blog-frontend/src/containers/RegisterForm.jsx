@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFiled, initializeForm, register } from '../../src/modules/auth';
+import { changeField, initializeForm, register } from '../../src/modules/auth';
 import AuthForm from '../../src/components/auth/AuthForm';
 import { check } from '../modules/user';
 import { useHistory } from 'react-router-dom';
@@ -21,7 +21,7 @@ const RegisterForm = () => {
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(
-      changeFiled({
+      changeField({
         form: 'register',
         key: name,
         value,
@@ -50,9 +50,9 @@ const RegisterForm = () => {
     // 비밀번호가 일치하지 않는 경우 에러처리
     if (password !== passwordConfirm) {
       setError('비밀번호가 일치하지 않습니다');
-      dispatch(changeFiled({ form: 'register', key: 'password', value: '' }));
+      dispatch(changeField({ form: 'register', key: 'password', value: '' }));
       dispatch(
-        changeFiled({ form: 'register', key: 'passwordConfirm', value: '' }),
+        changeField({ form: 'register', key: 'passwordConfirm', value: '' }),
       );
       return;
     }

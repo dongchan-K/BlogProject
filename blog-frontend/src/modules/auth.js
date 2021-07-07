@@ -15,7 +15,7 @@ const LOGIN = 'auth/LOGIN';
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
-export const changeFiled = createAction(
+export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({
     form,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFiled, initializeForm, login } from '../../src/modules/auth';
+import { changeField, initializeForm, login } from '../../src/modules/auth';
 import AuthForm from '../../src/components/auth/AuthForm';
 import { useHistory } from 'react-router-dom';
 import { check } from '../modules/user';
@@ -21,7 +21,7 @@ const LoginForm = () => {
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(
-      changeFiled({
+      changeField({
         form: 'login',
         key: name,
         value,

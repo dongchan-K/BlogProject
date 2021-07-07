@@ -4,6 +4,7 @@ import Button from '../common/Button';
 
 const WriteButtonWrapper = styled.div`
   margin: 1rem 1rem 3rem 1rem;
+  /* padding-bottom: 5rem; */
   button + button {
     margin-left: 0.5rem;
   }
