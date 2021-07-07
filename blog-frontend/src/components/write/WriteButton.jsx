@@ -4,7 +4,6 @@ import Button from '../common/Button';
 
 const WriteButtonWrapper = styled.div`
   margin: 1rem 1rem 3rem 1rem;
-  /* padding-bottom: 5rem; */
   button + button {
     margin-left: 0.5rem;
   }
@@ -12,9 +11,6 @@ const WriteButtonWrapper = styled.div`
 
 const StyledButton = styled(Button)`
   height: 2.125rem;
-  /* & + & {
-    margin-left: 0.5rem;
-  } */
 `;
 
 const WriteButton = ({ onCancel, onPublish }) => {

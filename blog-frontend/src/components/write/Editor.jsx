@@ -36,19 +36,17 @@ const Editor = ({ title, body, onChangeField }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
-  const toolbarOptions = [
-    [{ header: '1' }, { header: '2' }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['blockquote', 'code-block', 'link', 'image'],
-  ];
-
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       theme: 'snow',
       placeholder: '내용을 작성하세요...',
       modules: {
-        toolbar: toolbarOptions,
+        toolbar: [
+          [{ header: '1' }, { header: '2' }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['blockquote', 'code-block', 'link', 'image'],
+        ],
       },
     });
     // quill에 text-change 이벤트 핸들러 등록
