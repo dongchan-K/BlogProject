@@ -57,7 +57,7 @@ const write = handleActions(
       postError,
     }),
   },
-  [initialState],
+  initialState,
 );
 
 export default write;
