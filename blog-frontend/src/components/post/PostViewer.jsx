@@ -23,7 +23,7 @@ const SubInfo = styled.div`
   color: ${palette.gray[6]};
 
   /* span 사이에 가운뎃점 문자 */
-  span + span::before {
+  span + span:before {
     color: ${palette.gray[5]};
     padding: 0 0.25rem;
     content: '\\B7'; // 가운뎃점 문자
@@ -48,26 +48,41 @@ const PostContent = styled.div`
   color: ${palette.gray[8]};
 `;
 
-const PostViewer = () => {
+const PostViewer = ({ post, error, loading }) => {
+  // 에러처리
+  if (error) {
+    if (error.response && error.response.status === 404) {
+      return <PostViewer>존재하지 않는 포스트입니다.</PostViewer>;
+    }
+    return <PostViewer>오류 발생</PostViewer>;
+  }
+
+  // 로딩 중이거나 아직 포스트 데이터가 없을 경우
+  if (loading || !post) {
+    return null;
+  }
+
+  const { title, body, user, publishedDate, tags } = post;
+  console.log(user.username);
   return (
     <PostViewerWrapper>
       <PostHead>
-        <h1>제목</h1>
+        <h1>{title}</h1>
         <SubInfo>
           <span>
-            <b>test</b>
+            <b>{user.username}</b>
           </span>
-          <span>{new Date().toLocaleDateString()}</span>
+          <span>{new Date(publishedDate).toLocaleDateString()}</span>
         </SubInfo>
         <Tags>
-          <div className="tag">태그1</div>
-          <div className="tag">태그2</div>
-          <div className="tag">태그3</div>
+          {tags.map((tag, i) => (
+            <div className="tag" key={i}>
+              #{tag}
+            </div>
+          ))}
         </Tags>
       </PostHead>
-      <PostContent
-        dangerouslySetInnerHTML={{ __html: '<p>HTML <b>내용</b>입니다.</p>' }}
-      />
+      <PostContent dangerouslySetInnerHTML={{ __html: body }} />
     </PostViewerWrapper>
   );
 };

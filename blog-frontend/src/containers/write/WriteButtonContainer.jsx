@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import WriteButton from '../../components/write/WriteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { writePost } from '../../modules/wrtie';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const WriteButtonContainer = () => {
   const dispatch = useDispatch();
