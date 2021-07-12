@@ -3,9 +3,9 @@ import createRequestSaga from '../lib/createRequestSaga';
 import * as postsAPI from '../lib/api/posts';
 import { takeLatest } from 'redux-saga/effects';
 
-const LIST_POSTS = '/main/LIST_POSTS';
-const LIST_POSTS_SUCCESS = '/main/LIST_POSTS_SUCCESS';
-const LIST_POSTS_FAILURE = '/main/LIST_POSTS_FAILURE';
+const LIST_POSTS = '/posts/LIST_POSTS';
+const LIST_POSTS_SUCCESS = '/posts/LIST_POSTS_SUCCESS';
+const LIST_POSTS_FAILURE = '/posts/LIST_POSTS_FAILURE';
 
 export const listPosts = createAction(
   LIST_POSTS,
@@ -20,13 +20,15 @@ export function* postsSaga() {
 const initialState = {
   posts: null,
   error: null,
+  lastPage: 1,
 };
 
 const posts = handleActions(
   {
-    [LIST_POSTS_SUCCESS]: (state, { payload: posts }) => ({
+    [LIST_POSTS_SUCCESS]: (state, { payload: posts, meta: res }) => ({
       ...state,
       posts,
+      lastPage: parseInt(res.headers['last-page'], 10), // 문자열을 숫자로 변환
     }),
     [LIST_POSTS_FAILURE]: (state, { payload: error }) => ({
       ...state,

@@ -4,7 +4,7 @@ import user, { userSaga } from './user';
 import loading from './loading';
 import write, { writeSaga } from './wrtie';
 import post, { postSaga } from './post';
-import posts, { postsSaga } from './main';
+import posts, { postsSaga } from './posts';
 import { all } from 'redux-saga/effects';
 
 const rootReducer = combineReducers({

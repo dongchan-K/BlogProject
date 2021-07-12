@@ -13,6 +13,7 @@ export default function createRequestSage(type, request) {
       yield put({
         type: SUCCESS,
         payload: res.data,
+        meta: res,
       });
     } catch (e) {
       yield put({

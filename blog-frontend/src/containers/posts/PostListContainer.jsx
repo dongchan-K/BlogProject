@@ -3,7 +3,7 @@ import qs from 'qs';
 import { useLocation, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import PostList from '../../components/posts/PostList';
-import { listPosts } from '../../modules/main';
+import { listPosts } from '../../modules/posts';
 
 const PostListContainer = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const PostListContainer = () => {
     ({ posts, loading, user }) => ({
       posts: posts.posts,
       error: posts.error,
-      loading: loading['main/LIST_POSTS'],
+      loading: loading['posts/LIST_POSTS'],
       user: user.user,
     }),
   );
