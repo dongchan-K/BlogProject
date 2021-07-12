@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import qs from 'qs';
 import { useLocation, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import PostList from '../../components/main/PostList';
+import PostList from '../../components/posts/PostList';
 import { listPosts } from '../../modules/main';
 
 const PostListContainer = () => {
@@ -25,7 +25,8 @@ const PostListContainer = () => {
       ignoreQueryPrefix: true,
     });
     dispatch(listPosts({ tag, username, page }));
-  });
+  }, [dispatch, location.search]);
+
   return (
     <PostList
       posts={posts}
