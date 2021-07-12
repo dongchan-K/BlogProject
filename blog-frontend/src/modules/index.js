@@ -4,6 +4,7 @@ import user, { userSaga } from './user';
 import loading from './loading';
 import write, { writeSaga } from './wrtie';
 import post, { postSaga } from './post';
+import posts, { postsSaga } from './main';
 import { all } from 'redux-saga/effects';
 
 const rootReducer = combineReducers({
@@ -12,10 +13,11 @@ const rootReducer = combineReducers({
   loading,
   write,
   post,
+  posts,
 });
 
 export function* rootSaga() {
-  yield all([authSaga(), userSaga(), writeSaga(), postSaga()]); // all 이펙트는 배열안에 넣어준 saga를 병렬적으로 처리
+  yield all([authSaga(), userSaga(), writeSaga(), postSaga(), postsSaga()]); // all 이펙트는 배열안에 넣어준 saga를 병렬적으로 처리
 }
 
 export default rootReducer;

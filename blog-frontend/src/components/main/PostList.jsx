@@ -5,6 +5,7 @@ import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import SubInfo from '../common/SubInfo';
 import Tags from '../common/Tags';
+import { Link } from 'react-router-dom';
 
 const PostListWrapper = styled(Responsive)`
   margin-top: 3rem;
@@ -37,30 +38,45 @@ const PostItemWrapper = styled.div`
   }
 `;
 
-const PostItem = () => {
+const PostItem = ({ post }) => {
+  const { publishedDate, user, tags, title, body, _id } = post;
   return (
     <PostItemWrapper>
-      <h2>제목</h2>
-      <SubInfo username="username" publishedDate={new Date()} />
-      <Tags tags={['태그1', '태그2', '태그3']} />
-      <p>포스트 내용 일부...</p>
+      <h2>
+        <Link to={`/@${user.username}/${_id}`}>{title}</Link>
+      </h2>
+      <SubInfo
+        username={user.username}
+        publishedDate={new Date(publishedDate)}
+      />
+      <Tags tags={tags} />
+      <p>{body}</p>
     </PostItemWrapper>
   );
 };
 
-const PostList = () => {
+const PostList = ({ posts, error, loading, showWriteButton }) => {
+  // 에러 발생 시
+  if (error) {
+    return <PostListWrapper>에러 발생!</PostListWrapper>;
+  }
   return (
     <PostListWrapper>
       <WritePostButtonWrapper>
-        <Button cyan to="/write">
-          새 글 작성하기
-        </Button>
+        {showWriteButton && (
+          <Button cyan to="/write">
+            새 글 작성하기
+          </Button>
+        )}
       </WritePostButtonWrapper>
-      <div>
-        <PostItem />
-        <PostItem />
-        <PostItem />
-      </div>
+      {/* 로딩 중이 아니고, 게시물 배열이 존재할 때만 보여준다 */}
+      {!loading && posts && (
+        <div>
+          {posts.map((post) => (
+            <PostItem post={post} key={post._id} />
+          ))}
+        </div>
+      )}
     </PostListWrapper>
   );
 };
