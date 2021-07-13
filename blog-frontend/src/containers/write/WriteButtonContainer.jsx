@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react';
 import WriteButton from '../../components/write/WriteButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { writePost } from '../../modules/wrtie';
+import { writePost, updatePost } from '../../modules/wrtie';
 import { useHistory } from 'react-router-dom';
 
 const WriteButtonContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { title, body, tags, post, postError } = useSelector(({ write }) => ({
-    title: write.title,
-    body: write.body,
-    tags: write.tags,
-    post: write.post,
-    postError: write.postError,
-  }));
+  const { title, body, tags, post, postError, originalPostId } = useSelector(
+    ({ write }) => ({
+      title: write.title,
+      body: write.body,
+      tags: write.tags,
+      post: write.post,
+      postError: write.postError,
+      originalPostId: write.originalPostId,
+    }),
+  );
 
   // 포스트 등록
   const onPublish = () => {
+    if (originalPostId) {
+      dispatch(updatePost({ title, body, tags, id: originalPostId }));
+    }
     dispatch(writePost({ title, body, tags }));
   };
 
@@ -37,7 +43,13 @@ const WriteButtonContainer = () => {
     }
   }, [history, post, postError]);
 
-  return <WriteButton onPublish={onPublish} onCancel={onCancel} />;
+  return (
+    <WriteButton
+      onPublish={onPublish}
+      onCancel={onCancel}
+      isEdit={!!originalPostId}
+    />
+  );
 };
 
 export default WriteButtonContainer;
