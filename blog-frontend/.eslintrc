@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "_": false
+  },
+  "plugins": ["import", "html", "prettier"],
+  "extends": [
+    "react-app",
+    "prettier",
+    "airbnb-base",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "camelcase": "off",
+    "prettier/prettier": 0,
+    "no-unused-vars": 0,
+    "no-console": "warn",
+    "no-plusplus": "off",
+    "no-shadow": "off",
+    "vars-on-top": "off",
+    "no-underscore-dangle": "off", // var _foo;
+    "comma-dangle": "off",
+    "func-names": "off", // setTimeout(function () {}, 0);
+    "prefer-template": "off",
+    "no-nested-ternary": "off",
+    "max-classes-per-file": "off",
+    "consistent-return": "off",
+    "no-restricted-syntax": ["off", "ForOfStatement"], // disallow specified syntax(ex. WithStatement)
+    "prefer-arrow-callback": "error", // Require using arrow functions for callbacks
+    "require-await": "error",
+    "arrow-parens": ["error", "as-needed"], // a => {}
+    "no-param-reassign": ["error", { "props": false }],
+    "max-len": "off",
+    "no-unused-expressions": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  }
+}
