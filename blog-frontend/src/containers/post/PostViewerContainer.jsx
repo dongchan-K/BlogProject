@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { readPost, unloadPost } from '../../modules/post';
 import PostViewer from '../../components/post/PostViewer';
+import PostButtons from '../../components/post/PostButtons';
 
 const PostViewContainer = () => {
   // postId params 가져오기
@@ -22,7 +23,16 @@ const PostViewContainer = () => {
     };
   }, [dispatch, postId]);
 
-  return <PostViewer post={post} loading={loading} error={error} />;
+  return (
+    <>
+      <PostViewer
+        post={post}
+        loading={loading}
+        error={error}
+        actionButtons={<PostButtons />}
+      />
+    </>
+  );
 };
 
 export default PostViewContainer;

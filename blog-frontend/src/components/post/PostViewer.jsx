@@ -25,7 +25,7 @@ const PostContent = styled.div`
   color: ${palette.gray[8]};
 `;
 
-const PostViewer = ({ post, error, loading }) => {
+const PostViewer = ({ post, error, loading, actionButtons }) => {
   // 에러처리
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -40,7 +40,7 @@ const PostViewer = ({ post, error, loading }) => {
   }
 
   const { title, body, user, publishedDate, tags } = post;
-  console.log(user.username);
+
   return (
     <PostViewerWrapper>
       <PostHead>
@@ -53,6 +53,7 @@ const PostViewer = ({ post, error, loading }) => {
 
         <Tags tags={tags} />
       </PostHead>
+      {actionButtons}
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
     </PostViewerWrapper>
   );

@@ -4,7 +4,6 @@ import palette from '../../lib/styles/palette';
 import { Link } from 'react-router-dom';
 
 const buttonStyle = css`
-  display: flex;
   align-items: center;
   border: none;
   border-radius: 4px;

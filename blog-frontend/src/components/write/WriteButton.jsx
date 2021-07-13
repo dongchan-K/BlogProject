@@ -9,17 +9,13 @@ const WriteButtonWrapper = styled.div`
   }
 `;
 
-const StyledButton = styled(Button)`
-  height: 2.125rem;
-`;
-
 const WriteButton = ({ onCancel, onPublish }) => {
   return (
     <WriteButtonWrapper>
-      <StyledButton cyan onClick={onPublish}>
+      <Button cyan onClick={onPublish}>
         포스트 등록
-      </StyledButton>
-      <StyledButton onClick={onCancel}>취소</StyledButton>
+      </Button>
+      <Button onClick={onCancel}>취소</Button>
     </WriteButtonWrapper>
   );
 };
