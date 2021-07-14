@@ -9,7 +9,6 @@ import send from 'koa-send';
 
 import api from './api';
 import jwtMiddleware from './lib/jwtMiddleware';
-import { createFakeData } from './createFakeData';
 
 const { PORT, MONGO_URI } = process.env;
 
