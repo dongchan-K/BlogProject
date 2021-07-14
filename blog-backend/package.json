@@ -20,6 +20,8 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
+    "koa-send": "^5.0.1",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.12.14",
     "sanitize-html": "^2.4.0"
   },
